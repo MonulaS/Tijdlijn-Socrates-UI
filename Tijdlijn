@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Testtijdlijn Socrates UI - Release 2026.080</title>
+  <style>
+    :root {
+      --wigo-plum: #5a1239;
+      --wigo-magenta: #cf5aa5;
+      --wigo-teal: #55beb4;
+      --wigo-green: #235342;
+      --wigo-grey: #686a61;
+      --wigo-blue: #43539b;
+      --wigo-yellow: #f1f56e;
+      --wigo-mist: #d2ddd0;
+      --paper: #fffdf8;
+      --ink: #241b22;
+      --muted: #6f6470;
+      --line: #e9e0e6;
+      --danger: #c73a2c;
+      --shadow: 0 18px 60px rgba(90, 18, 57, .13);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(207, 90, 165, .20), transparent 28rem),
+        radial-gradient(circle at bottom left, rgba(85, 190, 180, .22), transparent 30rem),
+        var(--paper);
+      line-height: 1.55;
+    }
+
+    .page { max-width: 1120px; margin: 0 auto; padding: 32px 20px 56px; }
+
+    header {
+      position: relative;
+      overflow: hidden;
+      border-radius: 32px;
+      padding: 36px;
+      color: white;
+      background: linear-gradient(135deg, var(--wigo-plum), #7a1d50 65%, var(--wigo-magenta));
+      box-shadow: var(--shadow);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 900;
+      letter-spacing: .06em;
+      font-size: 1.25rem;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+
+    .mark {
+      width: 44px;
+      height: 44px;
+      position: relative;
+      display: inline-grid;
+      place-items: center;
+    }
+
+    .mark::before,
+    .mark::after,
+    .bar-a,
+    .bar-b {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      width: 13px;
+      height: 46px;
+      transform-origin: center;
+      opacity: .98;
+    }
+
+    .mark::before { background: var(--wigo-magenta); transform: rotate(45deg) translate(-7px, 4px); }
+    .mark::after { background: var(--wigo-grey); transform: rotate(0deg) translate(4px, 1px); }
+    .bar-a { background: var(--wigo-teal); transform: rotate(90deg) translate(7px, -8px); }
+    .bar-b { background: var(--wigo-blue); transform: rotate(90deg) translate(7px, 8px); }
+
+    h1 {
+      margin: 0;
+      max-width: 780px;
+      font-size: clamp(2rem, 5vw, 4.8rem);
+      line-height: .95;
+      letter-spacing: -0.06em;
+    }
+
+    .subtitle {
+      max-width: 700px;
+      margin: 22px 0 0;
+      font-size: 1.15rem;
+      color: rgba(255,255,255,.88);
+    }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .chip {
+      padding: 9px 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.13);
+      border: 1px solid rgba(255,255,255,.22);
+      font-weight: 700;
+      color: white;
+    }
+
+    .grid { display: grid; grid-template-columns: 1fr 340px; gap: 24px; margin-top: 24px; }
+
+    .card {
+      background: rgba(255, 255, 255, .82);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(90, 18, 57, .10);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+
+    h2 { margin: 0 0 16px; color: var(--wigo-plum); font-size: 1.45rem; }
+    h3 { margin: 0 0 8px; color: var(--wigo-plum); }
+
+    .highlight {
+      border-left: 8px solid var(--wigo-magenta);
+      background: linear-gradient(90deg, rgba(207,90,165,.12), rgba(85,190,180,.10));
+      padding: 20px;
+      border-radius: 18px;
+      margin: 18px 0 0;
+    }
+
+    .highlight strong { color: var(--wigo-plum); }
+
+    .timeline { position: relative; margin-top: 16px; padding-left: 26px; }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 7px;
+      width: 4px;
+      border-radius: 999px;
+      background: linear-gradient(var(--wigo-magenta), var(--wigo-teal), var(--wigo-plum));
+    }
+
+    .item { position: relative; padding: 0 0 24px 22px; }
+    .item::before {
+      content: "";
+      position: absolute;
+      left: -26px;
+      top: 3px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--paper);
+      border: 5px solid var(--wigo-teal);
+      box-shadow: 0 0 0 4px rgba(85,190,180,.14);
+    }
+    .item.critical::before { border-color: var(--danger); box-shadow: 0 0 0 4px rgba(199,58,44,.13); }
+    .item.freeze::before { border-color: var(--wigo-plum); box-shadow: 0 0 0 4px rgba(90,18,57,.14); }
+
+    .date { color: var(--wigo-plum); font-weight: 900; font-size: .95rem; }
+    .title { font-weight: 850; font-size: 1.08rem; margin: 2px 0; }
+    .desc { color: var(--muted); margin: 0; }
+
+    .side-card { display: grid; gap: 16px; }
+    .kpi {
+      border-radius: 22px;
+      padding: 20px;
+      color: var(--ink);
+      background: var(--wigo-mist);
+      border: 1px solid rgba(90,18,57,.08);
+    }
+    .kpi:nth-child(2) { background: var(--wigo-yellow); }
+    .kpi:nth-child(3) { background: rgba(85,190,180,.22); }
+    .kpi-label { font-size: .82rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--wigo-plum); }
+    .kpi-value { margin-top: 6px; font-size: 1.55rem; line-height: 1.1; font-weight: 950; color: var(--wigo-plum); }
+    .kpi-text { margin: 8px 0 0; color: #4a4049; }
+
+    table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 16px; }
+    th, td { padding: 14px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: white; background: var(--wigo-plum); font-size: .88rem; }
+    tr:last-child td { border-bottom: 0; }
+    td:first-child { font-weight: 800; color: var(--wigo-plum); white-space: nowrap; }
+
+    .note {
+      margin-top: 24px;
+      padding: 24px;
+      border-radius: 24px;
+      color: white;
+      background: linear-gradient(135deg, var(--wigo-green), var(--wigo-teal));
+      box-shadow: var(--shadow);
+    }
+
+    .note p { margin: 0; font-size: 1.05rem; }
+
+    footer { margin-top: 24px; color: var(--muted); font-size: .9rem; text-align: center; }
+
+    @media (max-width: 860px) {
+      .grid { grid-template-columns: 1fr; }
+      header { padding: 28px; }
+      td:first-child { white-space: normal; }
+    }
+
+    @media print {
+      body { background: white; }
+      .card, header, .note { box-shadow: none; }
+      .page { max-width: none; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div class="brand"><span class="mark"><span class="bar-a"></span><span class="bar-b"></span></span> Wigo4it</div>
+      <h1>Testtijdlijn Socrates UI</h1>
+      <p class="subtitle">Release 2026.080 - planning voor G4-testen, bevindingen, herstel en hertest richting de code freeze.</p>
+      <div class="chips">
+        <span class="chip">Start G4-testen: ma 15 juni 2026</span>
+        <span class="chip">Code freeze: do 2 juli 2026</span>
+        <span class="chip">SIT start: vr 3 juli 2026</span>
+      </div>
+    </header>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Aanbevolen tijdlijn</h2>
+        <p>Vanaf maandag 15 juni 2026 kunnen bevindingen voor Socrates UI worden ingestuurd. Om voldoende tijd te houden voor analyse, herstel, oplevering en hertest is het advies om kritieke en hoge prioriteit bevindingen uiterlijk woensdag 24 juni 2026 aan te leveren.</p>
+
+        <div class="highlight">
+          <strong>Laatste moment voor bevindingen die nog opgelost moeten worden voor deze release:</strong><br>
+          woensdag 24 juni 2026 om 17:00 uur.
+        </div>
+
+        <div class="timeline" aria-label="Tijdlijn testtraject">
+          <div class="item">
+            <div class="date">Ma 15 juni</div>
+            <div class="title">Start G4-testen Socrates UI</div>
+            <p class="desc">Testers kunnen vanaf dit moment bevindingen indienen.</p>
+          </div>
+          <div class="item">
+            <div class="date">15 t/m 24 juni</div>
+            <div class="title">Actieve testperiode</div>
+            <p class="desc">Focus op functionele bevindingen en issues met impact op acceptatie.</p>
+          </div>
+          <div class="item critical">
+            <div class="date">Wo 24 juni - 17:00</div>
+            <div class="title">Deadline kritieke en hoge prioriteit bevindingen</div>
+            <p class="desc">Na dit moment is oplossen voor de code freeze niet meer gegarandeerd.</p>
+          </div>
+          <div class="item">
+            <div class="date">Do 25 t/m ma 29 juni</div>
+            <div class="title">Analyse, herstel en oplevering</div>
+            <p class="desc">Ontwikkeling verwerkt de bevindingen en levert fixes op voor hertest.</p>
+          </div>
+          <div class="item">
+            <div class="date">Di 30 juni</div>
+            <div class="title">Hertest opgeloste bevindingen</div>
+            <p class="desc">Testteam controleert of de fixes correct werken en geen regressie veroorzaken.</p>
+          </div>
+          <div class="item">
+            <div class="date">Wo 1 juli - 12:00</div>
+            <div class="title">Afronding hertest en besluitvorming</div>
+            <p class="desc">Bepalen welke bevindingen nog mee kunnen in release 2026.080.</p>
+          </div>
+          <div class="item freeze">
+            <div class="date">Do 2 juli</div>
+            <div class="title">Code freeze</div>
+            <p class="desc">Vanaf dit moment geen reguliere codewijzigingen meer voor deze release.</p>
+          </div>
+        </div>
+      </article>
+
+      <aside class="side-card">
+        <div class="kpi">
+          <div class="kpi-label">Testvenster</div>
+          <div class="kpi-value">15 - 24 juni</div>
+          <p class="kpi-text">Periode waarin bevindingen met release-impact actief verzameld worden.</p>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Herstelbuffer</div>
+          <div class="kpi-value">5 werkdagen</div>
+          <p class="kpi-text">Ruimte voor analyse, herstel, oplevering en voorbereiding op hertest.</p>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Hertest</div>
+          <div class="kpi-value">30 juni - 1 juli</div>
+          <p class="kpi-text">Laatste controle voordat de code freeze ingaat.</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="card" style="margin-top: 24px;">
+      <h2>Releasepad 2026.080</h2>
+      <table>
+        <thead>
+          <tr><th>Datum</th><th>Mijlpaal</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Do 2 jul 2026</td><td>CODE - FREEZE</td></tr>
+          <tr><td>Vr 3 jul 2026</td><td>Concept releasenotes op extranet en start SIT</td></tr>
+          <tr><td>Do 9 jul 2026</td><td>Einde SIT en definitieve releasenotes op extranet</td></tr>
+          <tr><td>Ma 13 jul 2026</td><td>Oplevering Acceptatie omgevingen G4</td></tr>
+          <tr><td>Di 14 jul 2026</td><td>Start acceptatietest</td></tr>
+          <tr><td>Vr 24 jul 2026</td><td>Acceptatietest gereed</td></tr>
+          <tr><td>Ma 27 jul 2026</td><td>Advies acceptatietestteam en GO/NOGO G4 acceptatie versie</td></tr>
+          <tr><td>Di 28 jul 2026</td><td>Oplevering, APPL-test, GO/NOGO APPL en productieomgeving G4</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="note">
+      <p><strong>Communicatieadvies:</strong> bevindingen die na woensdag 24 juni 2026 om 17:00 uur binnenkomen, worden beoordeeld op impact en urgentie, maar kunnen mogelijk niet meer vóór de code freeze van donderdag 2 juli 2026 worden opgelost.</p>
+    </section>
+
+    <footer>
+      Socrates UI - Release 2026.080 - opgesteld voor G4-testtraject
+    </footer>
+  </main>
+</body>
+</html>
